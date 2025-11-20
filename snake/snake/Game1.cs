@@ -20,6 +20,15 @@ namespace snake
         private double _timer;
         private double _moveInterval = 0.15; // seconds between moves
 
+        private Point _torch;
+        private bool _torchActive;
+        private double _torchTimer;
+        private double _torchDuration = 5.0; // seconds snake holds torch
+
+        private Texture2D _torchTexture;
+        private double _torchSpawnCooldown = 3.0;
+        private double _torchSpawnTimer = 0;
+
         private int _cellSize = 20;
         private int _gridWidth = 40;
         private int _gridHeight = 30;
@@ -67,6 +76,9 @@ namespace snake
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            _torchTexture = new Texture2D(GraphicsDevice, 1, 1);
+            _torchTexture.SetData(new[] { Color.Orange });
 
             _snakeTexture = new Texture2D(GraphicsDevice, 1, 1);
             _snakeTexture.SetData(new[] { Color.LimeGreen });
