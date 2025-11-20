@@ -25,6 +25,8 @@ namespace snake
         private int _gridHeight = 30;
 
         private bool _gameOver;
+        private Rectangle _restartButton;
+        private Texture2D _restartTexture;
         private Random _random = new Random();
 
         public Game1()
@@ -40,6 +42,7 @@ namespace snake
         protected override void Initialize()
         {
             ResetGame();
+            _restartButton = new Rectangle(300, 350, 200, 50);
             base.Initialize();
         }
 
@@ -69,6 +72,8 @@ namespace snake
             _snakeTexture.SetData(new[] { Color.LimeGreen });
 
             _foodTexture = new Texture2D(GraphicsDevice, 1, 1);
+            _restartTexture = new Texture2D(GraphicsDevice, 1, 1);
+            _restartTexture.SetData(new[] { Color.White });
             _foodTexture.SetData(new[] { Color.Red });
         }
 
@@ -81,8 +86,14 @@ namespace snake
 
             if (_gameOver)
             {
-                if (keyboard.IsKeyDown(Keys.Enter))
+                var mouse = Mouse.GetState();
+
+                if (keyboard.IsKeyDown(Keys.Enter) ||
+                    (mouse.LeftButton == ButtonState.Pressed && _restartButton.Contains(mouse.Position)))
+                {
                     ResetGame();
+                }
+
                 base.Update(gameTime);
                 return;
             }
@@ -155,9 +166,23 @@ namespace snake
             // Draw game over text
             if (_gameOver)
             {
+                // Draw Game Over text
                 string msg = "Game Over! Press Enter to restart";
                 var font = new SpriteFontStub(GraphicsDevice);
-                font.DrawCenteredText(_spriteBatch, msg, new Vector2(400, 300), Color.White);
+                font.DrawCenteredText(_spriteBatch, msg, new Vector2(400, 250), Color.White);
+
+                // Draw restart button
+                _spriteBatch.Draw(_restartTexture, _restartButton, Color.DarkGray);
+
+                // Draw button label
+                var font2 = new SpriteFontStub(GraphicsDevice);
+                font2.DrawCenteredText(
+                    _spriteBatch,
+                    "RESTART",
+                    new Vector2(_restartButton.X + _restartButton.Width / 2,
+                                _restartButton.Y + 20),
+                    Color.White
+                );
             }
 
             _spriteBatch.End();
