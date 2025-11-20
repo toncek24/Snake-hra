@@ -169,7 +169,7 @@ namespace snake
                 // Draw Game Over text
                 string msg = "Game Over! Press Enter to restart";
                 var font = new SpriteFontStub(GraphicsDevice);
-                font.DrawCenteredText(_spriteBatch, msg, new Vector2(400, 250), Color.White);
+                font.DrawCenteredText(_spriteBatch, msg, new Vector2(400, 250), Color.Black);
 
                 // Draw restart button
                 _spriteBatch.Draw(_restartTexture, _restartButton, Color.DarkGray);
